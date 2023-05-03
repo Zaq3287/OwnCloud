@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:conv="clr-namespace:Custom.Converter;assembly=Custom"
+             xmlns:userControls="clr-namespace:Custom.Controls;assembly=Custom"
+             xmlns:lv="clr-namespace:OwnCloud.Controls;assembly=OwnCloud"
+             x:Class="OwnCloud.Cloud">
+
+    <ContentPage.Resources>
+        <conv:imageConverter x:Key="ImageConverter"/>    
+
+    </ContentPage.Resources>
+
+
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid HeightRequest="40" BackgroundColor="LightGray">
+                <Label Text="" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+            </Grid>
+            <Grid HeightRequest="140">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="240"/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
+                <Label Text="Url:" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="0" Margin="5,0,0,0"/>
+                <ContentView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                                Grid.Row="0" Grid.Column="1"
+                                BackgroundColor ="White">
+                    <userControls:Entry x:Name="txtUrk" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
+                                Keyboard="Default" Text="{Binding strUrl}" Margin="0,0,4,0"/>
+                </ContentView>
+                <Label Text="User:" VerticalOptions="CenterAndExpand" Grid.Row="1" Grid.Column="0" Margin="5,0,0,0"/>
+                <ContentView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                                Grid.Row="1" Grid.Column="1"
+                                BackgroundColor ="White">
+                    <userControls:Entry x:Name="txtUser" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
+                                Keyboard="Default" Text="{Binding strUser}" Margin="0,0,4,0"/>
+                </ContentView>
+                <Label Text="Password:" VerticalOptions="CenterAndExpand" Grid.Row="2" Grid.Column="0" Margin="5,0,0,0"/>
+                <ContentView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                                Grid.Row="2" Grid.Column="1"
+                                BackgroundColor ="White">
+                    <userControls:Entry x:Name="txtPassword" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
+                                Keyboard="Default" Text="{Binding strPassword}" IsPassword="True" Margin="0,0,4,0"/>
+                </ContentView>
+                <Image Source="refresh.png" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Grid.Column="2" Grid.RowSpan="3">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding comRefresh}"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+            <Label HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Text="{Binding path}" BackgroundColor="LightGray"/>
+            <Frame BorderColor="LightGray">
+                <lv:ListViewCustom ItemsSource="{Binding lstFile}" 
+                    SelectedItem="{Binding selFile, Mode=TwoWay}" Margin="-15,0,-15,0"
+                    ItemTapped="ListViewCustom_ItemTapped">
+                    <ListView.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="150"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="Nama" Grid.Column="1"/>
+                            <Label Text="Ukuran" Grid.Column="2"/>
+                            <Label Text="Waktu" Grid.Column="3"/>
+                        </Grid>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="180"/>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="150"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{Binding type, Converter={StaticResource ImageConverter}}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Column="0" Margin="2,2,2,2"/>
+                                    <Label Text="{Binding name}" Grid.Column="1" VerticalTextAlignment="Center"/>
+                                    <Label Text="{Binding size}" Grid.Column="2" VerticalTextAlignment="Center"/>
+                                    <Label Text="{Binding modified}" Grid.Column="3" VerticalTextAlignment="Center"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </lv:ListViewCustom>
+            </Frame>
+
+
+            <Grid HeightRequest="90">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Source="leftarrow.png" VerticalOptions="FillAndExpand" Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding comBack}"/>
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Image Source="folder.png" VerticalOptions="FillAndExpand" Grid.Column="1">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding comAddFolder}"/>
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Image Source="download.png" VerticalOptions="FillAndExpand" Grid.Column="3">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding comDownload}"/>
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Image Source="add.png" VerticalOptions="FillAndExpand" Grid.Column="2">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding comAdd}"/>
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Image Source="delete.png" VerticalOptions="FillAndExpand" Grid.Column="4">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding comDelete}"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+
+    
+</ContentPage>
